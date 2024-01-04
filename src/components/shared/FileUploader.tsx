@@ -7,13 +7,13 @@ interface FileUploaderProps {
 }
 
 function FileUploader({ fieldChnage, mediaUrl }: FileUploaderProps) {
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileUrl, setFileUrl] = useState(mediaUrl);
   const [file, setFile] = useState<File[]>([]);
   const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
     setFile(acceptedFiles);
     fieldChnage(acceptedFiles);
     setFileUrl(URL.createObjectURL(acceptedFiles[0]));
-  }, []);
+  }, [file]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {

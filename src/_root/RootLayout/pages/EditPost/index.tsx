@@ -1,8 +1,7 @@
 import PostForm from "@/components/forms/PostForm";
-import { useParams } from "react-router-dom";
 
 const EditPost = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   return (
     <div className="flex flex-1  ">
       <div className="common-container">

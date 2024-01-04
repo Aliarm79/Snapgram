@@ -28,7 +28,7 @@ const PostForm = ({ post }: postFormProps) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const { mutateAsync: createPost, isPending: isLoadingCrate } =
+  const { mutateAsync: createPost,  } =
     useCreatePost();
   const form = useForm<z.infer<typeof postSchema>>({
     resolver: zodResolver(postSchema),
