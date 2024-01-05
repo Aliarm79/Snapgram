@@ -133,7 +133,11 @@ const Signupform = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="shad-button_primary">
+          <Button
+            disabled={isCreatingUSer || isSignIn || isUserloading}
+            type="submit"
+            className="shad-button_primary"
+          >
             {isCreatingUSer || isSignIn || isUserloading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...

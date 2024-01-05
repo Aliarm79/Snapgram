@@ -36,7 +36,7 @@ const SignInForm = () => {
     },
   });
   async function onSubmit(values: z.infer<typeof signinSchema>) {
-   await signInrAccount({ email: values.email, password: values.password });
+    await signInrAccount({ email: values.email, password: values.password });
     if (signInError) {
       toast({
         title: "sign in failed. please try again",
@@ -94,7 +94,11 @@ const SignInForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="shad-button_primary">
+          <Button
+            disabled={isSignIn || isUserloading}
+            type="submit"
+            className="shad-button_primary"
+          >
             {isSignIn || isUserloading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...

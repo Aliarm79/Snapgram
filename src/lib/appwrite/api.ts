@@ -1,4 +1,4 @@
-import { INewPost, INewUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -131,8 +131,8 @@ export function getFilePreview(fileID: string) {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileID,
-      2000,
-      2000
+      1000,
+      1000
     );
     return fileUrl;
   } catch (error) {
@@ -207,6 +207,67 @@ export async function getPostById(postId: string) {
     );
     if (!post) throw Error;
     return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updatePost(post: IUpdatePost) {
+  const hasFileChange = post.file.length > 0;
+  try {
+    let image = {
+      imageUrl: post.imageUrl,
+      imageId: post.imageId,
+    };
+    if (hasFileChange) {
+      const uploadedFile = await uploadFile(post.file[0]);
+      if (!uploadedFile) throw Error;
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if (!fileUrl) {
+        storage.deleteFile(appwriteConfig.storageId, uploadedFile.$id);
+        throw Error;
+      }
+      image = { ...image, imageId: uploadedFile.$id, imageUrl: fileUrl };
+    }
+
+    const tags = post.tags?.replace(/ /g, "").split(",");
+    const updatedPost = databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      post.postId,
+      {
+        caption: post.caption,
+        location: post.location,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+        tags,
+      }
+    );
+    if (!updatedPost) {
+      storage.deleteFile(appwriteConfig.storageId, image.imageId);
+      throw Error;
+    }
+    if (hasFileChange)
+      storage.deleteFile(appwriteConfig.storageId, post.imageId);
+
+    return updatedPost;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePost(postId: string, imageId: string) {
+  try {
+    if (!postId || !imageId) throw Error;
+    storage.deleteFile(appwriteConfig.storageId, imageId);
+
+    const deletedPost = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
+    );
+    if (!deletedPost) throw Error;
+    return { status: "ok" };
   } catch (error) {
     console.log(error);
   }

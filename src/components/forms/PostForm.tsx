@@ -15,21 +15,27 @@ import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { postSchema } from "@/lib/validation";
 import { Models } from "appwrite";
-import { useCreatePost } from "@/lib/react-query/queriesAndMutations";
+import {
+  useCreatePost,
+  useUpdatePost,
+} from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
 
 interface postFormProps {
   post?: Models.Document;
+  action: "Update" | "Create";
 }
 
-const PostForm = ({ post }: postFormProps) => {
+const PostForm = ({ post, action }: postFormProps) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const { mutateAsync: createPost,  } =
+  const { mutateAsync: createPost, isPending: isCreatingPost } =
     useCreatePost();
+  const { mutateAsync: updatePost, isPending: isUpdatingPost } =
+    useUpdatePost();
   const form = useForm<z.infer<typeof postSchema>>({
     resolver: zodResolver(postSchema),
     defaultValues: {
@@ -41,6 +47,22 @@ const PostForm = ({ post }: postFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof postSchema>) {
+    if (post && action === "Update") {
+      const updatedPost =await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post.imageId,
+        imageUrl: post.imageUrl,
+      });
+      if (!updatedPost) {
+        toast({
+          title: "Please try again",
+        });
+      } else {
+        navigate(`/posts/${post.$id}`);
+      }
+      return;
+    }
     const newPost = await createPost({
       ...values,
       userId: user.id,
@@ -125,11 +147,16 @@ const PostForm = ({ post }: postFormProps) => {
           )}
         />
         <div className="flex gap-4 items-center justify-end">
-          <Button type="button" className="shad-button_dark_4">
+          {/* <Button type="button" className="shad-button_dark_4">
             Cancel
-          </Button>
-          <Button type="submit" className="shad-button_primary">
-            Submit
+          </Button> */}
+          <Button
+            disabled={isCreatingPost || isUpdatingPost}
+            type="submit"
+            className="shad-button_primary"
+          >
+            {isCreatingPost || (isUpdatingPost && "...")}
+            {action}
           </Button>
         </div>
       </form>
