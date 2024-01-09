@@ -2,30 +2,18 @@ import Loader from "@/components/shared/Loader";
 import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
-import {
-  useDeletePost,
-  useGetPostById,
-} from "@/lib/react-query/queriesAndMutations";
+import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
 import { multiFormatDateString } from "@/lib/utils";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const PostDetails = () => {
   const { id } = useParams();
   const { user } = useUserContext();
 
   const { data: post, isPending: isPostLoading } = useGetPostById(id || "");
-  const {
-    mutate: deletePost,
-    isSuccess,
-    isPending: isDeleting,
-  } = useDeletePost();
 
-  const handleDeletePost = () => {
-    deletePost({ imageId: post?.imageId, postId: post?.$id || "" });
-  };
-  if (isSuccess) {
-    return <Navigate to="/" />;
-  }
+  const handleDeletePost = () => {};
+
   return (
     <div className="post_details-container">
       {isPostLoading ? (
@@ -67,9 +55,7 @@ const PostDetails = () => {
                   <Link to={`/update-post/${post?.$id}`}>
                     <img src="/assets/icons/edit.svg" alt="edit" width={24} />
                   </Link>
-                  {isDeleting ? (
-                    <Loader />
-                  ) : (
+                  {
                     <Button
                       variant={"ghost"}
                       className="post_details-delete_btn"
@@ -81,7 +67,7 @@ const PostDetails = () => {
                         width={24}
                       />
                     </Button>
-                  )}
+                  }
                 </div>
               )}
             </div>
