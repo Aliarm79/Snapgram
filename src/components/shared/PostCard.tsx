@@ -9,7 +9,7 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
-  if (!post?.imageUrl) return;
+  console.log(post?.imageUrl);
   return (
     <div className="post-card">
       <div className="flex justify-between items-center">
