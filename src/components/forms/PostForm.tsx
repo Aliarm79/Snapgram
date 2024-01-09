@@ -59,6 +59,9 @@ const PostForm = ({ post, action }: postFormProps) => {
           title: "Please try again",
         });
       } else {
+        toast({
+          title: "Post Updated",
+        });
         navigate(`/posts/${post.$id}`);
       }
       return;
@@ -73,6 +76,9 @@ const PostForm = ({ post, action }: postFormProps) => {
       });
       return;
     }
+    toast({
+      title: "Post Created",
+    });
     navigate("/");
   }
 
