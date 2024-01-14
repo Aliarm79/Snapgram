@@ -57,8 +57,8 @@ const PostStats = ({ post, userId }: PostStatsprops) => {
   };
 
   return (
-    <div className="flex justify-between items-center mt-3">
-      <div className="flex gap-2 ">
+    <div className="flex gap-2 justify-between items-center mt-3">
+      <div className="flex gap-2  items-center">
         <img
           src={
             checkIsLiked(likes, userId)
