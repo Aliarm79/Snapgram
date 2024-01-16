@@ -272,10 +272,10 @@ export async function deletePost(postId: string, imageId: string) {
   }
 }
 
-export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
-  const queries = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+export async function getInfinitePosts({ pageParam }: { pageParam: string }) {
+  const queries = [Query.orderDesc("$updatedAt"), Query.limit(6)];
   if (pageParam) {
-    queries.push(Query.cursorAfter(pageParam.toString()));
+    queries.push(Query.cursorAfter(pageParam));
   }
   try {
     const posts = await databases.listDocuments(
@@ -297,7 +297,7 @@ export async function searchPosts(searchTerm: string) {
       [Query.search("caption", searchTerm)]
     );
     if (!posts) throw Error;
-    return posts;
+    return posts.documents;
   } catch (error) {
     console.log(error);
   }

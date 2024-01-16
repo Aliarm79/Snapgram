@@ -176,10 +176,10 @@ export const useGetPosts = () => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
     queryFn: getInfinitePosts,
-    initialPageParam: 0,
+    initialPageParam: "",
     getNextPageParam: (lastPage) => {
-      if (lastPage && lastPage?.documents.length === 0) return null;
-      return Number(lastPage?.documents[lastPage?.documents.length - 1].$id);
+      if (lastPage && lastPage.documents.length === 0) return null;
+      return lastPage?.documents[lastPage?.documents.length - 1].$id;
     },
   });
 };
@@ -188,7 +188,7 @@ export const useSearchPosts = (serchTerm: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.SEARCH_POSTS],
     queryFn: () => {
-      searchPosts(serchTerm);
+      return searchPosts(serchTerm);
     },
   });
 };
