@@ -9,6 +9,11 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
+  if (post.location === "leauge of legends") {
+    return;
+    //this buggy post cant be deleted from server so i dont show it
+  }
+ 
   return (
     <div className="post-card">
       <div className="flex justify-between items-center">

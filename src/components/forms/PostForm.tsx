@@ -22,6 +22,7 @@ import {
 import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import Loader from "../shared/Loader";
 
 interface postFormProps {
   post?: Models.Document;
@@ -48,7 +49,7 @@ const PostForm = ({ post, action }: postFormProps) => {
 
   async function onSubmit(values: z.infer<typeof postSchema>) {
     if (post && action === "Update") {
-      const updatedPost =await updatePost({
+      const updatedPost = await updatePost({
         ...values,
         postId: post.$id,
         imageId: post.imageId,
@@ -161,8 +162,7 @@ const PostForm = ({ post, action }: postFormProps) => {
             type="submit"
             className="shad-button_primary"
           >
-            {isCreatingPost || (isUpdatingPost && "...")}
-            {action}
+            {isCreatingPost || isUpdatingPost ? <Loader /> : action}
           </Button>
         </div>
       </form>

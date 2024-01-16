@@ -1,19 +1,37 @@
 import Loader from "@/components/shared/Loader";
 import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
+import {
+  useDeletePost,
+  useGetPostById,
+} from "@/lib/react-query/queriesAndMutations";
 import { multiFormatDateString } from "@/lib/utils";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const PostDetails = () => {
   const { id } = useParams();
   const { user } = useUserContext();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const { data: post, isPending: isPostLoading } = useGetPostById(id || "");
+  const {
+    mutate: deletePost,
+    isPending: isDeletingPost,
+    isSuccess: isDeleted,
+  } = useDeletePost();
 
-  const handleDeletePost = () => {};
-
+  const handleDeletePost = () => {
+    deletePost({ postId: post?.$id || "", imageId: post?.imageId });
+  };
+  if (isDeleted) {
+    toast({
+      title: "post deleted",
+    });
+    navigate(`/`);
+  }
   return (
     <div className="post_details-container">
       {isPostLoading ? (
@@ -60,12 +78,17 @@ const PostDetails = () => {
                       variant={"ghost"}
                       className="post_details-delete_btn"
                       onClick={handleDeletePost}
+                      disabled={isDeletingPost}
                     >
-                      <img
-                        src="/assets/icons/delete.svg"
-                        alt="delete"
-                        width={24}
-                      />
+                      {isDeletingPost ? (
+                        <Loader />
+                      ) : (
+                        <img
+                          src="/assets/icons/delete.svg"
+                          alt="delete"
+                          width={24}
+                        />
+                      )}
                     </Button>
                   }
                 </div>
