@@ -17,6 +17,10 @@ const GridPostList = ({
   return (
     <ul className="grid-container">
       {posts.map((post) => {
+        if (post.location === "leauge of legends") {
+          return;
+          //this buggy post cant be deleted from server so i dont show it
+        }
         return (
           <li className="relative h-80" key={post.$id}>
             <Link className="grid-post_link" to={`/posts/${post.$id}`}>
