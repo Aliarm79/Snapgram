@@ -39,6 +39,7 @@ const SignInForm = () => {
     await signInrAccount({ email: values.email, password: values.password });
     if (signInError) {
       toast({
+        variant: "mobile",
         title: "sign in failed. please try again",
       });
     }
@@ -46,9 +47,7 @@ const SignInForm = () => {
       form.reset();
       navigate("/");
     } else {
-      toast({
-        title: "sign in failed. please try again",
-      });
+      toast({ variant: "mobile", title: "sign in failed. please try again" });
     }
   }
   return (

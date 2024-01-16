@@ -51,6 +51,7 @@ const Signupform = () => {
     await signInrAccount({ email: values.email, password: values.password });
     if (createUserError || signInError) {
       toast({
+        variant: "mobile",
         title: "sign up failed. please try again",
       });
     }
@@ -58,9 +59,7 @@ const Signupform = () => {
       form.reset();
       navigate("/");
     } else {
-      toast({
-        title: "sign up failed. please try again",
-      });
+      toast({ variant: "mobile", title: "sign up failed. please try again" });
     }
   }
   return (
