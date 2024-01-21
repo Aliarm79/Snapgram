@@ -13,7 +13,6 @@ const PostCard = ({ post }: PostCardProps) => {
     return;
     //this buggy post cant be deleted from server so i dont show it
   }
- 
   return (
     <div className="post-card">
       <div className="flex justify-between items-center">
@@ -52,11 +51,12 @@ const PostCard = ({ post }: PostCardProps) => {
           <p>{post.caption}</p>
           <ul className="flex gap-1 mt-2">
             {post.tags.map((tag: string) => {
-              return (
-                <li key={tag} className="text-light-3">
-                  #{tag}
-                </li>
-              );
+              if (tag)
+                return (
+                  <li key={tag} className="text-light-3">
+                    #{tag}
+                  </li>
+                );
             })}
           </ul>
         </div>

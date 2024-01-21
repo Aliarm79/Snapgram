@@ -99,11 +99,12 @@ const PostDetails = () => {
               <p>{post?.caption}</p>
               <ul className="flex gap-1 mt-2">
                 {post?.tags.map((tag: string) => {
-                  return (
-                    <li key={tag} className="text-light-3">
-                      #{tag}
-                    </li>
-                  );
+                  if (tag)
+                    return (
+                      <li key={tag} className="text-light-3">
+                        #{tag}
+                      </li>
+                    );
                 })}
               </ul>
             </div>
