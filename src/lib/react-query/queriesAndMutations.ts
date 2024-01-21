@@ -178,7 +178,7 @@ export const useGetPosts = () => {
     queryFn: getInfinitePosts,
     initialPageParam: "",
     getNextPageParam: (lastPage) => {
-      if (lastPage && lastPage.documents.length === 0) return null;
+      if (lastPage && lastPage.documents.length < 6) return null;
       return lastPage?.documents[lastPage?.documents.length - 1].$id;
     },
   });
@@ -186,7 +186,7 @@ export const useGetPosts = () => {
 
 export const useSearchPosts = (serchTerm: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.SEARCH_POSTS,serchTerm],
+    queryKey: [QUERY_KEYS.SEARCH_POSTS, serchTerm],
     queryFn: () => {
       return searchPosts(serchTerm);
     },
