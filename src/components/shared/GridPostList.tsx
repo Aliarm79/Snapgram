@@ -41,7 +41,9 @@ const GridPostList = ({
                   <p>{post.creator.name}</p>
                 </div>
               )}
-              {showStats && <PostStats post={post} userId={user.id} />}
+              <div className="mb-2">
+                {showStats && <PostStats post={post} userId={user.id} />}
+              </div>
             </div>
           </li>
         );

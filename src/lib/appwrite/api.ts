@@ -302,3 +302,16 @@ export async function searchPosts(searchTerm: string) {
     console.log(error);
   }
 }
+
+export async function getUsers() {
+  try {
+    const users = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId
+    );
+    if (!users) throw Error;
+    return users.documents;
+  } catch (error) {
+    console.log(error);
+  }
+}

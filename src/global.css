@@ -81,10 +81,6 @@
     @apply flex justify-center items-center;
   }
 
-
-
- 
-
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 100%;
@@ -109,9 +105,6 @@
   }
 
   /* All Users */
-  .user-container {
-    @apply max-w-5xl flex flex-col items-start w-full gap-6 md:gap-9;
-  }
 
   .user-grid {
     @apply w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl;
@@ -189,7 +182,7 @@
 
   /* File uploader */
   .file_uploader-img {
-    @apply h-80 lg:h-[480px] w-full rounded-[24px] object-cover ;
+    @apply h-80 lg:h-[480px] w-full rounded-[24px] object-cover;
   }
 
   .file_uploader-label {
@@ -210,7 +203,7 @@
   }
 
   .grid-post_user {
-    @apply absolute bottom-0 p-5 flex justify-between items-center w-full bg-gradient-to-t from-dark-3 to-transparent rounded-b-[24px] gap-2;
+    @apply absolute bottom-0 p-5 flex justify-between items-center  w-full bg-gradient-to-t from-dark-3 to-transparent rounded-b-[24px] gap-2;
   }
 
   /* Left sidebar */
@@ -245,9 +238,6 @@
 @layer components {
   /* SHADCN COMPONENTS */
   /* Form */
-  
-
- 
 
   .shad-input {
     @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
