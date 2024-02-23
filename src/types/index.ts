@@ -37,3 +37,13 @@ export type IUpdatePost = {
   location?: string;
   tags?: string;
 };
+export type IUpdateProfile = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  imageUrl: URL;
+  imageId: string;
+  bio: string;
+  file: File[];
+};

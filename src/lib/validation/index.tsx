@@ -25,3 +25,16 @@ export const postSchema = z.object({
   location: z.string().min(2).max(100),
   tags: z.string(),
 });
+export const editUserSchema = z.object({
+  name: z.string().min(2, {
+    message: "Too Short",
+  }),
+  username: z.string().min(2, {
+    message: "Too Short",
+  }),
+  email: z.string().email({ message: "Invalid email address" }),
+  bio: z.string().min(2, {
+    message: "Too Short",
+  }),
+  file: z.custom<File[]>(),
+});

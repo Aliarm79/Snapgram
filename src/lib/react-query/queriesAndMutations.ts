@@ -20,6 +20,7 @@ import {
   signInAccount,
   signOutAccount,
   updatePost,
+  updateProfile,
 } from "../appwrite/api";
 import { QUERY_KEYS } from "./queryKeys";
 
@@ -197,5 +198,17 @@ export const useGetUsers = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: getUsers,
+  });
+};
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
   });
 };
