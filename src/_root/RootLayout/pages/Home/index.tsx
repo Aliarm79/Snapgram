@@ -13,7 +13,6 @@ const Home = () => {
     hasNextPage,
     fetchNextPage,
     isPending: postLoading,
-    
   } = useGetPosts();
   useEffect(() => {
     if (inView) fetchNextPage();

@@ -13,6 +13,7 @@ import {
   getPostById,
   getRecentPosts,
   getUserAccount,
+  getUserProfile,
   getUsers,
   likePost,
   savePost,
@@ -128,7 +129,7 @@ export const useDeleteSavedPost = () => {
 
 export const useGetCurrentUser = () => {
   return useQuery({
-    queryFn: getUserAccount,
+    queryFn: () => getUserAccount(),
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
   });
 };
@@ -210,5 +211,12 @@ export const useUpdateProfile = () => {
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
       });
     },
+  });
+};
+
+export const useGetProfile = (id: string) => {
+  return useQuery({
+    queryFn: () => getUserProfile(id),
+    queryKey: [QUERY_KEYS.GET_CURRENT_USER, id],
   });
 };

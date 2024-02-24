@@ -68,12 +68,14 @@ export async function getUserAccount() {
   try {
     const userAccount = await account.get();
     if (!userAccount) throw Error;
+
     const userDocument = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       [Query.equal("accountId", userAccount.$id)]
     );
     if (!userDocument) throw Error;
+    console.log(userDocument);
     return userDocument.documents[0];
   } catch (error) {
     console.log(error);
@@ -355,6 +357,21 @@ export async function updateProfile(profile: IUpdateProfile) {
       storage.deleteFile(appwriteConfig.storageId, profile.imageId);
 
     return updatedProfile;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserProfile(userId: string) {
+  try {
+    const userDocument = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.equal("$id", userId!)]
+    );
+    if (!userDocument) throw Error;
+    console.log(userDocument);
+    return userDocument.documents[0];
   } catch (error) {
     console.log(error);
   }
