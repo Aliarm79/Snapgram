@@ -75,7 +75,6 @@ export async function getUserAccount() {
       [Query.equal("accountId", userAccount.$id)]
     );
     if (!userDocument) throw Error;
-    console.log(userDocument);
     return userDocument.documents[0];
   } catch (error) {
     console.log(error);
@@ -370,7 +369,6 @@ export async function getUserProfile(userId: string) {
       [Query.equal("$id", userId!)]
     );
     if (!userDocument) throw Error;
-    console.log(userDocument);
     return userDocument.documents[0];
   } catch (error) {
     console.log(error);
